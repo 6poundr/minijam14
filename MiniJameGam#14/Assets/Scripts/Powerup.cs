@@ -2,48 +2,64 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PowerUp : MonoBehaviour
+public class Powerup : MonoBehaviour
 {
-    private CharacterController characterControllerScript;
+    public SamplePlayer samplePlayer;
     private float originalSpeed;
-    private float powerupSpeed = 10f;
+    private float currentSpeed;
+    public float powerupSpeed;
     public float duration;
     private bool isActivated = false;
     private float holdTime = 0f;
-
+    private float newSpeed;
+    private bool isPoweredUp = false;
     private void Start()
     {
-        characterControllerScript = GetComponent<CharacterController>();
-        originalSpeed = characterControllerScript.speed;
+        //samplePlayerScript = GetComponent<SamplePlayer>();
+        originalSpeed = samplePlayer._speed;
     }
     private void Update()
     {
-        if (Input.GetKey(KeyCode.E))
+        if (Input.GetKey(KeyCode.F) && isActivated)
         {
             holdTime += Time.deltaTime;
-            if (holdTime >= 2f && !isActivated)
-            {
-                ActivatePowerUp();
+            Debug.Log(holdTime);
+            if (holdTime >= 2f && !isPoweredUp)
+            {             
+                  isPoweredUp= true;
+                  ActivatePowerUp();
             }
         }
-        else
+    }
+
+    public void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "Player")
         {
-            holdTime = 0f;
+            isActivated = true;
+        }
+    }
+    public void OnTriggerExit(Collider other)
+    {
+        if (other.tag == "Player")
+        {
+            isActivated = false;
         }
     }
 
     private void ActivatePowerUp()
     {
-        isActivated = true;
-        characterControllerScript.speed = powerupSpeed;
+        newSpeed = samplePlayer._speed + powerupSpeed;
+        samplePlayer._speed = newSpeed;
         Invoke("DeactivatePowerUp", duration);
+        Debug.Log("activated!");
+        gameObject.SetActive(false);
     }
 
     private void DeactivatePowerUp()
     {
-        characterControllerScript.speed = originalSpeed;
-
-        isActivated = false;
+        isPoweredUp= false;
+        samplePlayer._speed = newSpeed - powerupSpeed;
         holdTime = 0f;
     }
 }
