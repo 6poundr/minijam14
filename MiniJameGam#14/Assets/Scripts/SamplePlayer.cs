@@ -8,10 +8,11 @@ public class SamplePlayer : MonoBehaviour
     [SerializeField] private Rigidbody _rb;
     [SerializeField] private float _speed = 5;
     private Vector3 _input;
+    public float turnRate = 200f;
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -22,7 +23,11 @@ public class SamplePlayer : MonoBehaviour
     }
 
     void FixedUpdate() {
-        Move();
+        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.A))
+        {
+            Move();
+        }
+
     }
 
 
@@ -40,11 +45,14 @@ public class SamplePlayer : MonoBehaviour
 
             Vector3 result = isoMatrix.MultiplyPoint3x4(relative);
 
-            transform.rotation = Quaternion.LookRotation(result);
+            Quaternion resultQuat = Quaternion.LookRotation(result, Vector3.up);
+
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, resultQuat, turnRate * Time.deltaTime);
         }
     }
 
     private void Move() {
-        _rb.MovePosition(transform.position + transform.forward * _speed);
+
+      _rb.MovePosition(transform.position + transform.forward * _speed);
     }
 }

@@ -46,8 +46,9 @@ public class GameManager : MonoBehaviour
     private void HandleGameStart() {
         // create initial setup
         // maybe camera as well
-        GameObject floor = GameObject.CreatePrimitive(PrimitiveType.Plane);
-        floor.transform.position = new Vector3(0.0f, 0.0f, 0.0f);
+
+        //GameObject floor = GameObject.CreatePrimitive(PrimitiveType.Plane);
+        //floor.transform.position = new Vector3(0.0f, 0.0f, 0.0f);
 
         _player.transform.position = new Vector3(0.0f, 0.0f, 0.0f);
     }
