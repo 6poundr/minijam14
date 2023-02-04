@@ -1,10 +1,12 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
     <Style src="project://database/Assets/stylesheet.uss?fileID=7433441132597879392&amp;guid=7ef4d0dc60ac5af4685ae7bab8f8084d&amp;type=3#stylesheet" />
-    <ui:VisualElement name="VisualElement" style="height: 1080px; width: 1940px; justify-content: flex-end; flex-direction: column; align-items: center; background-color: rgba(0, 0, 0, 0); flex-wrap: wrap-reverse; flex-grow: 1;">
-        <ui:VisualElement name="Container" style="visibility: visible; display: flex; overflow: visible; background-color: rgba(255, 6, 6, 0.12); height: 1076px; width: 1978px; justify-content: flex-end; -unity-background-scale-mode: stretch-to-fill; position: relative; flex-direction: column; align-items: auto; flex-grow: 1; flex-basis: auto; flex-wrap: wrap-reverse; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 15px;">
-            <ui:Button text="Button" display-tooltip-when-elided="true" style="flex-direction: column; max-width: 50%; -unity-text-align: middle-center; height: 81px; width: 450px; white-space: nowrap; padding-bottom: 15px; padding-top: 15px; padding-right: 5px; padding-left: 5px;" />
-            <ui:Button text="Button" display-tooltip-when-elided="true" style="height: 62px; width: 446px;" />
-            <ui:Button text="Button" display-tooltip-when-elided="true" />
+    <ui:VisualElement name="VisualElement" style="height: 1080px; width: 1940px; justify-content: flex-end; flex-direction: column; align-items: flex-start; background-color: rgba(0, 0, 0, 0); flex-wrap: wrap-reverse; flex-grow: 1;">
+        <ui:VisualElement style="width: 1920px; height: 650px; background-image: url(&apos;project://database/Packages/com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/d_stevejobsbuho.png?fileID=2800000&amp;guid=e92527f6d0fe45342ab542b47346d45f&amp;type=3#d_stevejobsbuho&apos;); flex-grow: 0;" />
+        <ui:VisualElement name="Container" style="visibility: visible; display: flex; overflow: visible; background-color: rgba(255, 6, 6, 0.12); height: 1076px; width: 1978px; justify-content: flex-end; -unity-background-scale-mode: stretch-to-fill; position: relative; flex-direction: column; align-items: auto; flex-grow: 1; flex-basis: auto; flex-wrap: wrap-reverse; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; margin-bottom: 20px; margin-top: 20px; margin-right: 20px; margin-left: 20px; max-width: 1920px; max-height: 1080px;">
+            <ui:Button text="Button" display-tooltip-when-elided="true" style="flex-direction: column; max-width: 50%; -unity-text-align: middle-center; height: 90px; width: 450px; white-space: nowrap; padding-bottom: 15px; padding-top: 15px; padding-right: 5px; padding-left: 5px;" />
+            <ui:Button text="Button" display-tooltip-when-elided="true" style="height: 90px; width: 450px; padding-bottom: 15px; padding-top: 15px; padding-right: 5px; padding-left: 5px;" />
+            <ui:Button text="Button" display-tooltip-when-elided="true" style="padding-bottom: 15px; padding-top: 15px; padding-right: 5px; padding-left: 5px; width: 450px; height: 90px;" />
+            <ui:Button text="Button" display-tooltip-when-elided="true" style="padding-left: 5px; padding-right: 5px; padding-top: 15px; padding-bottom: 15px; width: 450px; height: 90px;" />
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>
