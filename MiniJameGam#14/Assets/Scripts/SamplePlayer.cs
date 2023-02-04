@@ -6,31 +6,41 @@ public class SamplePlayer : MonoBehaviour
 {
 
     [SerializeField] private Rigidbody _rb;
-    [SerializeField] private float _speed = 5;
+    [SerializeField] public float _speed;
+    public float _speedSave = 0.02f;
     private Vector3 _input;
     public float turnRate = 200f;
-    // Start is called before the first frame update
+    public bool isFrenzy = false;
+    List<Enemy> EatedEnemies = new List<Enemy>();
+    public float hunger = 0f;
+    public float hungerSave = 0f;
+    public float hungerIncreaseSpeed = 10f; // increase hunger by 10 every 10 seconds
+    public float hungerDeathThreshold = 100f;
+  
     void Start()
     {
-
+        _speedSave = _speed;
+        hungerSave = hunger;
+       StartCoroutine(IncreaseHunger());
     }
 
-    // Update is called once per frame
     void Update()
     {
         GatherInput();
         Look();
+        if (hunger >= hungerDeathThreshold)
+        {
+            // Player has reached death threshold
+            Debug.Log("Player is dead due to hunger");
+            // Do death actions here
+        }
     }
-
     void FixedUpdate() {
         if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.A))
         {
             Move();
         }
-
     }
-
-
     private void GatherInput() {
         _input = new Vector3(Input.GetAxis("Horizontal"),0, Input.GetAxis("Vertical"));
     }
@@ -54,5 +64,21 @@ public class SamplePlayer : MonoBehaviour
     private void Move() {
 
       _rb.MovePosition(transform.position + transform.forward * _speed);
+    }
+    private IEnumerator IncreaseHunger()
+    {
+        while (hunger < hungerDeathThreshold)
+        {
+            hunger += hungerIncreaseSpeed;
+            _speed -= _speed / 10f;
+            yield return new WaitForSeconds(10f);
+            Debug.Log("Hunger is" + hunger.ToString());
+           // Debug.Log("Speed is:" + _speed.ToString());
+        }
+
+    }
+    public void OnCollisionEnter(Collision collision)
+    {
+        
     }
 }
