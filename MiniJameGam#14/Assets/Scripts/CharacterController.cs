@@ -10,6 +10,8 @@ public class CharacterController : MonoBehaviour
     public float speed = 5f;
     public float powerupSpeed = 10f;
 
+
+    
     void Update()
     {
         movedirection = playerControls.ReadValue<Vector2>();
@@ -17,11 +19,14 @@ public class CharacterController : MonoBehaviour
         transform.position += transform.forward * movedirection.y * speed * Time.deltaTime;
 
         transform.position += transform.right * movedirection.x * speed * Time.deltaTime;
+
+        Debug.Log(movedirection);
     }
 
     private void OnEnable()
     {
         playerControls.Enable();
+       
     }
 
     private void OnDisable()
