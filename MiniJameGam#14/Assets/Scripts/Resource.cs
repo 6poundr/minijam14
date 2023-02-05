@@ -54,6 +54,13 @@ public class Resource : MonoBehaviour
         Debug.Log("Speed is:" + originalSpeed.ToString());
         holdTime = 0f;
         gameObject.SetActive(false);
+
+        samplePlayer.comboCounter++;
+        samplePlayer.comboTimer = 0f;
+        if (samplePlayer.comboCounter >= 5)
+        {
+            samplePlayer.ActivateFrenzy();
+        }
     }
 
 

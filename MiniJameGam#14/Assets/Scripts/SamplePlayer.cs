@@ -11,7 +11,10 @@ public class SamplePlayer : MonoBehaviour
     private Vector3 _input;
     public float turnRate = 200f;
     public bool isFrenzy = false;
-    List<Enemy> EatedEnemies = new List<Enemy>();
+    public float frenzySpeed = 1f;
+    public float frenzyDuration = 15f;
+    public int comboCounter = 0;
+    public float comboTimer = 0f;
     public float hunger = 0f;
     public float hungerSave = 0f;
     public float hungerIncreaseSpeed = 10f; // increase hunger by 10 every 10 seconds
@@ -33,6 +36,17 @@ public class SamplePlayer : MonoBehaviour
             // Player has reached death threshold
             Debug.Log("Player is dead due to hunger");
             // Do death actions here
+        }
+
+        if (!isFrenzy)
+        {
+            comboTimer += Time.deltaTime;
+
+            if (comboTimer >= 30f)
+            {
+                comboCounter = 0;
+                comboTimer = 0f;
+            }
         }
     }
     void FixedUpdate() {
@@ -77,8 +91,19 @@ public class SamplePlayer : MonoBehaviour
         }
 
     }
-    public void OnCollisionEnter(Collision collision)
+    public void ActivateFrenzy()
     {
-        
+        isFrenzy = true;
+        _speed = frenzySpeed;
+        Invoke("DeactivateFrenzy", frenzyDuration);
+    }
+
+    public void DeactivateFrenzy()
+    {
+        isFrenzy = false;
+        comboCounter = 0;
+       _speed = _speedSave;
+        hunger = hungerSave;
     }
 }
+

@@ -653,6 +653,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 633e6a4146df7fa4eaa0dd11ef7cce98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  samplePlayer: {fileID: 0}
   powerupSpeed: 0.05
   duration: 3
 --- !u!1 &1986767584
