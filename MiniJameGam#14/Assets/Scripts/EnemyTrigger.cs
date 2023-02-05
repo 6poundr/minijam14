@@ -8,10 +8,11 @@ public class EnemyTrigger : MonoBehaviour
     private bool isFollowing = false;
     public float followSpeed;
     public GameObject snake;
+    public float rotateSpeed;
     // Start is called before the first frame update
     private void Start()
     {
-        gameObject.SetActive(true);
+       gameObject.SetActive(true);
         snake.SetActive(false);   
     }
     private void OnTriggerEnter(Collider other)

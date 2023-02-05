@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 5095471051334715088}
   - component: {fileID: 7075270152202185378}
   - component: {fileID: 8327273759669939628}
-  - component: {fileID: 8590276791387399297}
-  - component: {fileID: 1802777988}
+  - component: {fileID: 1992333936}
+  - component: {fileID: 1992333941}
   m_Layer: 0
   m_Name: SamplePlayer
   m_TagString: Player
@@ -49,9 +49,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 280794b8eed43c3479759bbb2751f5c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _rb: {fileID: 8590276791387399297}
-  _speed: 0.02
+  _rb: {fileID: 1992333936}
+  _speed: 0.1
+  _speedSave: 0.02
   turnRate: 500
+  isFrenzy: 0
+  hunger: 0
+  hungerSave: 0
+  hungerIncreaseSpeed: 10
+  hungerDeathThreshold: 100
+  isMoving: 0
 --- !u!135 &5095471051334715088
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -63,7 +70,7 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 2
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &7075270152202185378
 MeshRenderer:
@@ -115,7 +122,7 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4886522652082220921}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!54 &8590276791387399297
+--- !u!54 &1992333936
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -131,17 +138,16 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &1802777988
-MonoBehaviour:
+--- !u!65 &1992333941
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4886522652082220921}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 633e6a4146df7fa4eaa0dd11ef7cce98, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  powerupSpeed: 0.05
-  duration: 3
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
