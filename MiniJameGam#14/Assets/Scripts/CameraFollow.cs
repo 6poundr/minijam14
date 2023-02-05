@@ -8,7 +8,7 @@ public class CameraFollow : MonoBehaviour
     // Update is called once per frame
     void LateUpdate()
     {
-        if(player.isMoving)
+        if(player != null && player.isMoving)
         {
             Vector3 desiredPosition = player.transform.position + offset;
             //Vector3 smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed * Time.deltaTime);

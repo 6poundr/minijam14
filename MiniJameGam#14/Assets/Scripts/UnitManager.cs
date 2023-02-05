@@ -7,6 +7,7 @@ public class UnitManager : MonoBehaviour
     // Start is called before the first frame update
     public static UnitManager Instance;
     [SerializeField] Resource _resourcePrefab;
+    [SerializeField] Enemy _enemyPrefab;
     [SerializeField] List<Resource> Resources = new List<Resource>();
     [SerializeField] List<Enemy> Enemies = new List<Enemy>();
     [SerializeField] SamplePlayer CurrentPlayer;
@@ -47,9 +48,14 @@ public class UnitManager : MonoBehaviour
 
             Vector3 randomValidPosition = GenerateValidCoordinate();
 
-            Debug.Log(randomValidPosition.ToString());
+            //Debug.Log(randomValidPosition.ToString());
             resource.Init(randomValidPosition);
         }
+    }
+
+    public void DeleteResource(Resource resource)
+    {
+        Resources.Remove(resource);
     }
 
     public Vector3 GenerateValidCoordinate()
@@ -65,27 +71,45 @@ public class UnitManager : MonoBehaviour
     public Resource GetClosestResource()
     {
         // will continously check closest resource to player
-
         Resource closestResource = null;
-        float closestDistanceSqr = Mathf.Infinity;
-        Vector3 currentPosition = CurrentPlayer.transform.position;
-        foreach (Resource resource in Resources)
+        if (CurrentPlayer != null)
         {
-            Transform resourceTransform = resource.transform;
-            Vector3 directionToTarget = resourceTransform.position - currentPosition;
-            float dSqrToTarget = directionToTarget.sqrMagnitude;
-            if (dSqrToTarget < closestDistanceSqr)
+            float closestDistanceSqr = Mathf.Infinity;
+            Vector3 currentPosition = CurrentPlayer.transform.position;
+            foreach (Resource resource in Resources)
             {
-                closestDistanceSqr = dSqrToTarget;
-                closestResource = resource;
+                Transform resourceTransform = resource.transform;
+                Vector3 directionToTarget = resourceTransform.position - currentPosition;
+                float dSqrToTarget = directionToTarget.sqrMagnitude;
+                if (dSqrToTarget < closestDistanceSqr)
+                {
+                    closestDistanceSqr = dSqrToTarget;
+                    closestResource = resource;
+                }
             }
         }
+      
 
         return closestResource;
     }
 
     public void SpawnEnemies()
     {
+            for (var i = 0; i < enemyNumber; i++)
+            {
+                Enemy enemy = Instantiate(_enemyPrefab);
+                Enemies.Add(enemy);
 
+                // generate valid coordinate
+                Vector3 randomValidPosition = GenerateValidCoordinate();
+
+                randomValidPosition.y = 0.61f;
+
+               // Debug.Log(randomValidPosition.ToString());
+                enemy.Init(randomValidPosition);
+
+                enemy.UpdatePlayer(CurrentPlayer);
+            }
+        
     }
 }

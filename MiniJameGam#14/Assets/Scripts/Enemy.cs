@@ -4,36 +4,86 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    // [SerializeField] private AnimationCurve _curve;
-    private EnemyManager _enemyManager;
-    [SerializeField] private Collider enemyCollider;
-
-
+    public SamplePlayer samplePlayer;
+    public Transform target;
+    private bool isFollowing = false;
+    public float followSpeed;
+    public GameObject snake;
+    List<GameObject> EatedEnemies = new List<GameObject>();
+    private int enemiesDestroyed = 0;
+    public float rotateSpeed;
     // Start is called before the first frame update
-    public int Health = 10;
-    void Start()
+    private void Start()
     {
-        Debug.Log("Hello World");
-        Debug.DrawLine(Vector3.zero, new Vector3(5, 0, 0), Color.white, 2.5f);
+        gameObject.SetActive(true);
+        snake.SetActive(false);   
     }
+    private void OnTriggerEnter(Collider other)
+    {  
+            if (other.tag == "Player" && !isFollowing) { 
+            
+            //Debug.Log("Player entered snake trigger");
+            snake.SetActive(true);
+            
+            isFollowing = true;
 
-    public void Init(EnemyManager enemyManager){
-        _enemyManager = enemyManager;
+            if(samplePlayer ==  null)
+            {
+                samplePlayer = other.gameObject.GetComponent<SamplePlayer>();
+            }
+            
+            target = other.transform;
+            }
+        
     }
-
-    private void OnCollisionEnter(Collision collision) {
-
-    }
-
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        // _current = Mathf.MoveTowards(_current, _target, _speed * Time.deltaTime);
-        // transform.position = Vector3.Lerp(Vector3.zero, goalPosition, _curve.Evaluate(_current));
+        if (isFollowing && samplePlayer != null)
+        {
+           
+                if (samplePlayer.isFrenzy)
+                {
+                    // Run away from the player
+                    snake.transform.position = Vector3.MoveTowards(snake.transform.position, -target.position, followSpeed * Time.deltaTime);
+                    snake.transform.LookAt(-target.position);
+                }
+                else
+                {
+                    // Follow the player
+                    snake.transform.position = Vector3.MoveTowards(snake.transform.position, target.position, followSpeed * Time.deltaTime);
+
+                    snake.transform.LookAt(target.position);
+                }
+            
+           
+        }
+    }
+ 
+    private void OnCollisionEnter(Collision collision)
+    {
+        Debug.Log(samplePlayer.isFrenzy);
+        if (collision.gameObject.tag == "Player" && samplePlayer.isFrenzy)
+        {
+
+            Debug.Log("Player entered snake collision");
+
+            gameObject.SetActive(false);
+            snake.SetActive(false);
+            isFollowing = false;
+        }
+    }
+    public void Init(Vector3 randomValidPosition)
+    {
+        transform.position = randomValidPosition;
     }
 
-    
-    private void MoveTowardsPlayer() {
-
+    public void UpdatePlayer(SamplePlayer player)
+    {
+        samplePlayer = player;
     }
+
+
+
 }
+
+

@@ -11,6 +11,10 @@ public class SamplePlayer : MonoBehaviour
     private Vector3 _input;
     public float turnRate = 200f;
     public bool isFrenzy = false;
+    public float frenzySpeed = 1f;
+    public float frenzyDuration = 15f;
+    public int comboCounter = 0;
+    public float comboTimer = 0f;
     List<Enemy> EatedEnemies = new List<Enemy>();
     public float hunger = 0f;
     public float hungerSave = 0f;
@@ -35,11 +39,30 @@ public class SamplePlayer : MonoBehaviour
             // Player has reached death threshold
             Debug.Log("Player is dead due to hunger");
             // Do death actions here
+            GameManager.Instance.UpdateGameState(GameState.Defeat);
         }
-    }
+
+        if (!isFrenzy)
+        {
+            comboTimer += Time.deltaTime;
+
+            if (comboTimer >= 30f)
+            {
+                comboCounter = 0;
+                comboTimer = 0f;
+            }
+        }
+
+        if (hunger <= 0f)
+        {
+            hunger = 0f;
+        }
+            
+ }
 
     // Update is called once per frame
     void FixedUpdate() {
+        Debug.Log(isFrenzy);
         if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S))
         {
             GatherInput();
@@ -83,13 +106,47 @@ public class SamplePlayer : MonoBehaviour
             hunger += hungerIncreaseSpeed;
             _speed -= _speed / 10f;
             yield return new WaitForSeconds(10f);
-            Debug.Log("Hunger is" + hunger.ToString());
+            //Debug.Log("Hunger is" + hunger.ToString());
            // Debug.Log("Speed is:" + _speed.ToString());
         }
 
     }
-    void OnCollisionEnter(Collision collision)
+    public void ActivateFrenzy()
     {
-        
+        isFrenzy = true;
+        _speed = frenzySpeed;
+        Invoke("DeactivateFrenzy", frenzyDuration);
+    }
+
+    public void DeactivateFrenzy()
+    {
+        isFrenzy = false;
+        comboCounter = 0;
+        _speed = _speedSave;
+        hunger = hungerSave;
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Enemy" && isFrenzy)
+        {
+            Debug.Log("Player collided with enemy when  he  is frenzy");
+            AddEnemyToList(collision.gameObject.GetComponent<Enemy>());
+            CountEnemiesDestroyed();
+        } else if(collision.gameObject.tag == "Enemy")
+        {
+            //Destroy(this);
+            GameManager.Instance.UpdateGameState(GameState.Defeat);
+        }
+    }
+
+    private void AddEnemyToList(Enemy enemy)
+    {
+        EatedEnemies.Add(enemy);
+    }
+
+    public int CountEnemiesDestroyed()
+    {
+        return EatedEnemies.Count;
     }
 }

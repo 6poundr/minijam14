@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -18,26 +19,30 @@ public class GameManager : MonoBehaviour
     {
         Camera camera = Helpers.Camera;
 
-        updateGameState(GameState.Starting);
+        UpdateGameState(GameState.Starting);
     }
 
     // Update is called once per frame
     void Update()
     {
         Resource _resource = UnitManager.Instance.GetClosestResource();
-        minimap.UpdateResource(_resource);
+        if(_resource != null)
+        {
+            minimap.UpdateResource(_resource);
+        }
+      
 
         if(currentGameState == GameState.Victory || (currentGameState == GameState.Defeat))
         {
-            updateGameState(GameState.Playing);
+            UpdateGameState(GameState.Playing);
         } else
         {
-            updateGameState(GameState.Playing);
+            UpdateGameState(GameState.Playing);
         }
         
     }
 
-    void updateGameState(GameState gameState) {
+    public void UpdateGameState(GameState gameState) {
 
         currentGameState = gameState;
         switch (gameState) {
@@ -53,6 +58,7 @@ public class GameManager : MonoBehaviour
                 break;
 
             case GameState.Defeat:
+                HandleGameDefeat();
                 break;
 
             default:
@@ -82,17 +88,25 @@ public class GameManager : MonoBehaviour
         UnitManager.Instance.SpawnResources();
         Resource _resource = UnitManager.Instance.GetClosestResource();
         minimap.Init(_player, _resource);
+        UnitManager.Instance.SpawnEnemies();
 
+    }
 
+    private void HandleGameDefeat()
+    {
+        Destroy(_player);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+
+        //SceneManager.LoadScene("GameMap");
     }
 
     private void CheckGame()
     {
-
+        
     }
 }
 
-enum GameState {
+public enum GameState {
     Starting,
     Playing,
     Victory,

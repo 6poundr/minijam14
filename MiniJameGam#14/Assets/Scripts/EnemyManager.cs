@@ -26,7 +26,7 @@ public class EnemyManager : MonoBehaviour
 
             enemies.Add(enemy);
 
-            enemy.Init(this);
+      //      enemy.Init(this);
 
             // set coordinate
         }
