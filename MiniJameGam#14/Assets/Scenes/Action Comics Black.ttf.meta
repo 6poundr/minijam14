@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: fe821f353ee53e944b755d73674757d5
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontNames:
+  - Action Comics Black
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: a31d1a5619c29c640857a7805b35f3c9, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
