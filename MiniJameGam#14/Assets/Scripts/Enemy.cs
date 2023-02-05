@@ -12,6 +12,7 @@ public class Enemy : MonoBehaviour
     List<GameObject> EatedEnemies = new List<GameObject>();
     private int enemiesDestroyed = 0;
     public float rotateSpeed;
+    private bool doOnce = false;
     // Start is called before the first frame update
     private void Start()
     {
@@ -22,9 +23,10 @@ public class Enemy : MonoBehaviour
     {  
             if (other.tag == "Player" && !isFollowing) { 
             
-            //Debug.Log("Player entered snake trigger");
             snake.SetActive(true);
-            
+
+            SFXmanager.Instance.PlaySnakeSound();
+
             isFollowing = true;
 
             if(samplePlayer ==  null)
@@ -38,35 +40,29 @@ public class Enemy : MonoBehaviour
     }
     private void Update()
     {
-        if (isFollowing && samplePlayer != null)
+        //Debug.Log("samplePlayer.isFrenzy" + samplePlayer.isFrenzy);
+        if (isFollowing && samplePlayer != null && !samplePlayer.isFrenzy)
         {
-           
-                if (samplePlayer.isFrenzy)
-                {
-                    // Run away from the player
-                    snake.transform.position = Vector3.MoveTowards(snake.transform.position, -target.position, followSpeed * Time.deltaTime);
-                    snake.transform.LookAt(-target.position);
-                }
-                else
-                {
-                    // Follow the player
-                    snake.transform.position = Vector3.MoveTowards(snake.transform.position, target.position, followSpeed * Time.deltaTime);
 
-                    snake.transform.LookAt(target.position);
-                }
+            // Follow the player
+            snake.transform.position = Vector3.MoveTowards(snake.transform.position, target.position, followSpeed * Time.deltaTime);
+
+            snake.transform.LookAt(target.position);
             
            
+        } else if(samplePlayer != null && samplePlayer.isFrenzy)
+        {
+            // Run away from the player
+            snake.transform.position = Vector3.MoveTowards(snake.transform.position, -target.position, followSpeed * Time.deltaTime);
+            snake.transform.LookAt(-target.position);
+
         }
     }
  
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log(samplePlayer.isFrenzy);
         if (collision.gameObject.tag == "Player" && samplePlayer.isFrenzy)
         {
-
-            Debug.Log("Player entered snake collision");
-
             gameObject.SetActive(false);
             snake.SetActive(false);
             isFollowing = false;
@@ -80,6 +76,11 @@ public class Enemy : MonoBehaviour
     public void UpdatePlayer(SamplePlayer player)
     {
         samplePlayer = player;
+    }
+
+    public void UpdateTransform(Transform transform)
+    {
+        target = transform;
     }
 
 

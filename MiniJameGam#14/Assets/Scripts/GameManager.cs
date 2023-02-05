@@ -10,7 +10,9 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private Minimap minimap;
 
-    private GameState currentGameState;
+    public GameOverScreen gameOverScreen;
+
+    public GameState currentGameState;
     void Awake() {
         Instance = this;
     }
@@ -95,8 +97,10 @@ public class GameManager : MonoBehaviour
     private void HandleGameDefeat()
     {
         Destroy(_player);
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        //SceneManager.LoadScene(SceneManager.GetActiveScene().name);
 
+        int snakesEaten = _player.CountEnemiesDestroyed();
+        gameOverScreen.show(snakesEaten);
         //SceneManager.LoadScene("GameMap");
     }
 

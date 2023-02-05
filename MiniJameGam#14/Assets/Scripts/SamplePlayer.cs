@@ -22,22 +22,36 @@ public class SamplePlayer : MonoBehaviour
     public float hungerDeathThreshold = 100f;
 
     public bool isMoving = false;
-  
+    //public GameObject CurrentMole;
+    public GameObject FrenzyMole;
+    public GameObject MoleHill;
+
+
     void Start()
     {
         _speedSave = _speed;
         hungerSave = hunger;
-       StartCoroutine(IncreaseHunger());
+
+        //GameObject current = CurrentMole.GetComponent<Mole>();
+
+        if (FrenzyMole != null && MoleHill != null)
+        {
+            FrenzyMole.SetActive(false);
+            MoleHill.SetActive(false);
+        }
+       
+        StartCoroutine(IncreaseHunger());
     }
 
     void Update()
     {
         // GatherInput();
         // Look();
+
+        //Debug.Log(isFrenzy);
         if (hunger >= hungerDeathThreshold)
         {
             // Player has reached death threshold
-            Debug.Log("Player is dead due to hunger");
             // Do death actions here
             GameManager.Instance.UpdateGameState(GameState.Defeat);
         }
@@ -58,11 +72,10 @@ public class SamplePlayer : MonoBehaviour
             hunger = 0f;
         }
             
- }
+    }
 
     // Update is called once per frame
     void FixedUpdate() {
-        Debug.Log(isFrenzy);
         if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S))
         {
             GatherInput();
@@ -106,33 +119,44 @@ public class SamplePlayer : MonoBehaviour
             hunger += hungerIncreaseSpeed;
             _speed -= _speed / 10f;
             yield return new WaitForSeconds(10f);
-            //Debug.Log("Hunger is" + hunger.ToString());
-           // Debug.Log("Speed is:" + _speed.ToString());
         }
 
     }
     public void ActivateFrenzy()
     {
+        Debug.Log("frenzy activated");
         isFrenzy = true;
         _speed = frenzySpeed;
+        if(FrenzyMole != null && MoleHill != null) {
+            FrenzyMole.SetActive(true);
+            MoleHill.SetActive(false);
+        }
+        
         Invoke("DeactivateFrenzy", frenzyDuration);
     }
 
     public void DeactivateFrenzy()
     {
+        Debug.Log("frenzy deactivated");
         isFrenzy = false;
         comboCounter = 0;
         _speed = _speedSave;
         hunger = hungerSave;
+
+        if (FrenzyMole != null && MoleHill != null)
+        {
+            FrenzyMole.SetActive(false);
+            MoleHill.SetActive(true);
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "Enemy" && isFrenzy)
         {
-            Debug.Log("Player collided with enemy when  he  is frenzy");
             AddEnemyToList(collision.gameObject.GetComponent<Enemy>());
             CountEnemiesDestroyed();
+            
         } else if(collision.gameObject.tag == "Enemy")
         {
             //Destroy(this);

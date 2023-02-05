@@ -51,7 +51,7 @@ public class Resource : MonoBehaviour
         samplePlayer._speed = newSpeed;
         originalSpeed = newSpeed;
         samplePlayer.hunger -= 10f;
-        Debug.Log("Speed is:" + originalSpeed.ToString());
+        //Debug.Log("Speed is:" + originalSpeed.ToString());
         holdTime = 0f;
         gameObject.SetActive(false);
 
@@ -59,6 +59,7 @@ public class Resource : MonoBehaviour
 
         samplePlayer.comboCounter++;
         samplePlayer.comboTimer = 0f;
+
         if (samplePlayer.comboCounter >=  5)
         {
             samplePlayer.ActivateFrenzy();
@@ -68,6 +69,11 @@ public class Resource : MonoBehaviour
     public void Init(Vector3 randomValidPosition)
     {
         transform.position = randomValidPosition;
+    }
+
+    public void UpdatePlayer(SamplePlayer player)
+    {
+        samplePlayer = player;
     }
 
 }

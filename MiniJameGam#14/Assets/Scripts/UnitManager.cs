@@ -50,6 +50,8 @@ public class UnitManager : MonoBehaviour
 
             //Debug.Log(randomValidPosition.ToString());
             resource.Init(randomValidPosition);
+
+            resource.UpdatePlayer(CurrentPlayer);
         }
     }
 
@@ -109,6 +111,8 @@ public class UnitManager : MonoBehaviour
                 enemy.Init(randomValidPosition);
 
                 enemy.UpdatePlayer(CurrentPlayer);
+
+                enemy.UpdateTransform(CurrentPlayer.transform);
             }
         
     }
