@@ -20,7 +20,7 @@ public class EnemyManager : MonoBehaviour
     }
 
     public void spawnEnemies(Bounds enemySpawnBounds) {
-        Debug.Log(enemySpawnBounds.min);
+        Debug.Log(enemySpawnBounds.size);
         for (int i = 0; i < enemyNumber; i++) {
             Enemy enemy = Instantiate(_enemyPrefab);
 

@@ -26,8 +26,8 @@ public class SamplePlayer : MonoBehaviour
 
     void Update()
     {
-        GatherInput();
-        Look();
+        // GatherInput();
+        // Look();
         if (hunger >= hungerDeathThreshold)
         {
             // Player has reached death threshold
@@ -35,20 +35,29 @@ public class SamplePlayer : MonoBehaviour
             // Do death actions here
         }
     }
+
+    // Update is called once per frame
     void FixedUpdate() {
-        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.A))
+        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S))
         {
+            GatherInput();
+            Look();
             Move();
+
+            isMoving = true;
+        } else
+        {
+            isMoving = false;
         }
     }
-    private void GatherInput() {
+    void GatherInput() {
         _input = new Vector3(Input.GetAxis("Horizontal"),0, Input.GetAxis("Vertical"));
     }
 
     void Look() {
         if (_input != Vector3.zero) {
             var relative = _input;
-
+            
             Quaternion rotation = Quaternion.Euler(0.0f, 45.0f, 0.0f);
 
             Matrix4x4 isoMatrix = Matrix4x4.Rotate(rotation);
@@ -61,11 +70,10 @@ public class SamplePlayer : MonoBehaviour
         }
     }
 
-    private void Move() {
-
+    void Move() {
       _rb.MovePosition(transform.position + transform.forward * _speed);
     }
-    private IEnumerator IncreaseHunger()
+    IEnumerator IncreaseHunger()
     {
         while (hunger < hungerDeathThreshold)
         {
@@ -77,7 +85,7 @@ public class SamplePlayer : MonoBehaviour
         }
 
     }
-    public void OnCollisionEnter(Collision collision)
+    void OnCollisionEnter(Collision collision)
     {
         
     }

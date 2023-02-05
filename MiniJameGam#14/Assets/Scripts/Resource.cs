@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Resource : MonoBehaviour
 {
+<<<<<<< HEAD
     private bool isEated;
     public SamplePlayer samplePlayer;
     private float originalSpeed;
@@ -15,11 +16,18 @@ public class Resource : MonoBehaviour
     void Start()
     {
         originalSpeed = samplePlayer._speed;
+=======
+    // Start is called before the first frame update
+    void Start()
+    {
+        
+>>>>>>> jamegamdev3
     }
 
     // Update is called once per frame
     void Update()
     {
+<<<<<<< HEAD
         if (Input.GetKey(KeyCode.E) && isActivated)
         {
             holdTime += Time.deltaTime;
@@ -61,3 +69,13 @@ public class Resource : MonoBehaviour
     
    
 
+=======
+        
+    }
+
+    public void Init(Vector3 randomValidPosition)
+    {
+        transform.position = randomValidPosition;
+    }
+}
+>>>>>>> jamegamdev3
