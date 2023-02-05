@@ -6,6 +6,9 @@ public class Enemy : MonoBehaviour
 {
     // [SerializeField] private AnimationCurve _curve;
     private EnemyManager _enemyManager;
+    [SerializeField] private Collider enemyCollider;
+
+
     // Start is called before the first frame update
     public int Health = 10;
     void Start()

@@ -7,6 +7,8 @@ public class SamplePlayer : MonoBehaviour
 
     [SerializeField] private Rigidbody _rb;
     [SerializeField] private float _speed = 5;
+    public bool isMoving = false;
+  
     private Vector3 _input;
     // Start is called before the first frame update
     void Start()
@@ -14,15 +16,20 @@ public class SamplePlayer : MonoBehaviour
         
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        GatherInput();
-        Look();
-    }
 
+    // Update is called once per frame
     void FixedUpdate() {
-        Move();
+        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S))
+        {
+            GatherInput();
+            Look();
+            Move();
+
+            isMoving = true;
+        } else
+        {
+            isMoving = false;
+        }
     }
 
 
@@ -33,18 +40,22 @@ public class SamplePlayer : MonoBehaviour
     void Look() {
         if (_input != Vector3.zero) {
             var relative = _input;
-
+            
             Quaternion rotation = Quaternion.Euler(0.0f, 45.0f, 0.0f);
 
             Matrix4x4 isoMatrix = Matrix4x4.Rotate(rotation);
 
             Vector3 result = isoMatrix.MultiplyPoint3x4(relative);
 
-            transform.rotation = Quaternion.LookRotation(result);
+            Quaternion resultQuat = Quaternion.LookRotation(result, Vector3.up);
+
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, resultQuat, 200 * Time.fixedDeltaTime);
         }
     }
 
     private void Move() {
-        _rb.MovePosition(transform.position + transform.forward * _speed);
+        //transform.position = transform.position + transform.forward * _speed * Time.fixedDeltaTime;
+        
+        _rb.MovePosition(transform.position + transform.forward * _speed * Time.fixedDeltaTime);
     }
 }
