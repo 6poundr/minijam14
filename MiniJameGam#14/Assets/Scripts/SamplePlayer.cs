@@ -16,6 +16,8 @@ public class SamplePlayer : MonoBehaviour
     public float hungerSave = 0f;
     public float hungerIncreaseSpeed = 10f; // increase hunger by 10 every 10 seconds
     public float hungerDeathThreshold = 100f;
+
+    public bool isMoving = false;
   
     void Start()
     {
@@ -72,6 +74,7 @@ public class SamplePlayer : MonoBehaviour
 
     void Move() {
       _rb.MovePosition(transform.position + transform.forward * _speed);
+      isMoving = true;
     }
     IEnumerator IncreaseHunger()
     {
